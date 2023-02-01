@@ -1,11 +1,11 @@
 {
-  "name": "chrome-extension-boilerplate-react",
+  "name": "chrome-extension-cfdi4-xml-to-pdf",
   "version": "5.0.4",
-  "description": "A chrome extension boilerplate built with React 18, Webpack 5, and Webpack Dev Server 4",
+  "description": "A chrome extension for generating PDF invoices from CFDI 4.0 XML",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lxieyang/chrome-extension-boilerplate-react.git"
+    "url": "https://github.com/lxieyang/chrome-extension-pdf-cfdi4.git"
   },
   "scripts": {
     "build": "node utils/build.js",
