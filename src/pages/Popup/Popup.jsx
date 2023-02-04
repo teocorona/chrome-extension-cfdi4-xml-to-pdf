@@ -2,50 +2,36 @@
 import React from 'react';
 import { useState } from 'react';
 import './Popup.css';
-import { xmlToObj, setInvoiceValues } from './js/functions';
-
-
+import { xmlToObj } from './js/functions';
+import PDFTemplate from './PDFTemplate'
+import PDFPreview from './PDFPreview'
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 
 const Popup = () => {
-
-  const fac = 1234
+  // const fac = 1234
   const [error, setError] = useState('')
-  const [xml, setXml] = useState('')
-  const handleOnClickSearch = () => {
-    setError('No se encontró el XML, o no se pudo crear el PDF.')
-    setTimeout(() => {
-      setError('')
-    }, 5000);
-  }
+  const [xmlObj, setXmlObj] = useState(undefined)
+  // const handleOnClickSearch = () => {
+  //   setError('No se encontró el XML, o no se pudo crear el PDF.')
+  //   setTimeout(() => {
+  //     setError('')
+  //   }, 5000);
+  // }
 
   const handleFileSelected = async (event) => {
     const reader = new FileReader()
     reader.onload = async (event) => {
-      setXml(event.target.result)
+      const xml = (event.target.result)
+      setXmlObj(xmlToObj(xml, setError))
     };
     reader.readAsText(event.target.files[0])
-    // if (!reader) {
-    //   setError('No se pudo abrir el explorador de archivos')
-    //   setTimeout(() => {
-    //     setError('')
-    //   }, 5000)
-    // }
-
   }
-
-
-  const handleOnClickCreate = () => {
-    console.log({ xml })
-    const xmlObj = xmlToObj(xml, setError);
-    const values = setInvoiceValues(xmlObj)
-  }
-
 
   return (
     <div className="App">
       <header className="App-header">
-        <div className='option'>
+        {/* <div className='option'>
           <p>
             Factura: <b>{fac}</b>
           </p>
@@ -54,12 +40,25 @@ const Popup = () => {
           >
             Buscar y Generar PDF
           </button>
-        </div>
-        <div className='line' />
-        <div className='option'>
-          <input id="fileInput" type="file" accept=".xml" onChange={handleFileSelected} />
-        </div>
-        <button onClick={handleOnClickCreate}>Generar PDF</button>
+        </div> */}
+        {/* <div className='line' /> */}
+        {/* <div className='option'> */}
+        <input id="fileInput" type="file" accept=".xml" onChange={handleFileSelected} />
+        {/* </div> */}
+        {xmlObj &&
+          <>
+            <PDFDownloadLink
+              document={<PDFTemplate xmlObj={xmlObj['cfdi:Comprobante']} />}
+              fileName={'F' + xmlObj['cfdi:Comprobante'].Folio || 'Nueva Factura'}
+              className='download'
+            >
+              {({ blob, url, loading, error }) =>
+                loading ? "Cargando..." : "Descargar PDF"
+              }
+            </PDFDownloadLink>
+            <PDFPreview xmlObj={xmlObj['cfdi:Comprobante']} />
+          </>
+        }
         {error.length > 0 &&
           <>
             <div className='error'>

@@ -131,7 +131,7 @@ const defaultCurrency = {
   centSingular: ''
 }
 
-export const totalEnLetra = (num: number, currency = defaultCurrency) => {
+export const totalEnLetra = (num: number, currency = defaultCurrency): string => {
   let data = {
     numero: num,
     enteros: Math.floor(num),

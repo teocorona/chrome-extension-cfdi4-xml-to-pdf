@@ -28,7 +28,8 @@
   align-items: center;
 }
 
-button {
+button,
+a.download {
   padding: 10px 20px;
   margin: 5px;
   background-color: rgba(38, 107, 85, 0.3);
