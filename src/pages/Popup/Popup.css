@@ -10,36 +10,72 @@
   background-color: #282c34;
 }
 
-.App-logo {
-  height: 30vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: start;
+  font-size: 18px;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.option {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90%;
+  align-items: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button,
+a.download {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: rgba(38, 107, 85, 0.3);
+  border: none;
+  border: 1px solid rgb(38, 107, 85);
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+input::file-selector-button {
+  padding: 10px 10px;
+  margin: 10px 10px 10px 0px;
+  background-color: rgba(38, 107, 85, 0.3);
+  border: none;
+  border: 1px solid rgb(38, 107, 85);
+  border-radius: 10px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.file-name {
+  color: white;
+  font-size: 18px;
+  border-bottom: solid 1px rgba(38, 107, 85, 0.3);
+}
+
+.line {
+  width: 100%;
+  margin: 10px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.5);
+}
+
+.error {
+  margin: 10px;
+  width: 80%;
+  padding: 0px 20px;
+  /* color: rgb(205, 29, 29); */
+  color: white;
+  background-color: rgba(205, 29, 29, 0.5);
 }
