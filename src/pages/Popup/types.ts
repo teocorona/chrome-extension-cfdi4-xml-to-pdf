@@ -2,7 +2,7 @@ export interface documentProps {
   title: string;
   author: string;
   subject: string;
-  keywords: string;
+  keywords?: string;
   creator: string;
 }
 
@@ -15,14 +15,14 @@ export interface CfdiProps {
   "cfdi:Complemento": CfdiComplemento;
   Version: string;
   Serie: string;
-  Descuento?: string;
+  Descuento?: number;
   Folio: string;
   Fecha: string;
   Sello: string;
   FormaPago: string;
   NoCertificado: string;
   Certificado: string;
-  SubTotal: string;
+  SubTotal: number;
   Moneda: string;
   TipoCambio: string;
   Total: number;
@@ -59,12 +59,12 @@ export interface CfdiConceptos {
 export interface CfdiConcepto {
   "cfdi:Impuestos": CfdiConceptoCfdiImpuestos;
   ClaveProdServ: string;
-  Cantidad: string;
+  Cantidad: number;
   ClaveUnidad: string;
   Unidad: string;
   Descripcion: string;
-  ValorUnitario: string;
-  Importe: string;
+  ValorUnitario: number;
+  Importe: number;
   ObjetoImp: string;
 }
 
@@ -92,8 +92,8 @@ export interface CfdiEmisor {
 
 export interface CfdiPropsCfdiImpuestos {
   "cfdi:Traslados": CfdiTraslados;
-  TotalImpuestosTrasladados?: string;
-  TotalImpuestosRetenidos?: string;
+  TotalImpuestosTrasladados?: number;
+  TotalImpuestosRetenidos?: number;
 }
 
 export interface CfdiReceptor {
