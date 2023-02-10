@@ -53,7 +53,7 @@ const PDFTemplate = ({ xmlObj }: TemplateProps) => {
 
           <View style={styles.twoCols}>
             <View style={styles.logoRow1}>
-              <Image src='logogc.png' style={styles.logo} />
+              <Image src='logo.png' style={styles.logo} />
             </View>
             <View style={styles.logoRow2}>
               <Text style={{ fontWeight: 'bold' }}>Factura - {TipoDeComprobante === 'I' ? 'Ingreso' : ''}</Text>
