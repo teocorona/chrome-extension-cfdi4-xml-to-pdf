@@ -8,6 +8,9 @@
 
 # production
 /build
+/xml-pdf-gc
+/xml-pdf-path
+logogc.png
 
 # zip
 /zip
