@@ -3,7 +3,7 @@ import { Document, Page, Text, View, Image } from '@react-pdf/renderer';
 import { totalEnLetra } from './js/totalEnLetra'
 import QRCode from 'qrcode'
 import { styles } from './pdfStyles';
-import { CfdiConcepto, CfdiProps, documentProps } from './types';
+import { CfdiConcepto, CfdiProps } from './types';
 import { formaDePago, metodoPago, regimenFiscal, usoDelCfdi } from './js/catalogs';
 
 const generateQR = async (qrStr: string) => {
@@ -14,13 +14,9 @@ const generateQR = async (qrStr: string) => {
   }
 }
 
-interface TemplateProps {
-  xmlObj: CfdiProps,
-  documentProps?: documentProps
-}
 
 // Create Document Component
-const PDFTemplate = ({ xmlObj }: TemplateProps) => {
+const PDFTemplate = (xmlObj: CfdiProps) => {
   const totalLetra = totalEnLetra(xmlObj.Total).toLowerCase() + 'MXN'
   const { Version, Folio, Fecha, Sello, FormaPago, NoCertificado, SubTotal, Descuento = 0.00,
     Moneda, TipoCambio, Total, TipoDeComprobante, Exportacion, MetodoPago, LugarExpedicion } = xmlObj
@@ -75,7 +71,7 @@ const PDFTemplate = ({ xmlObj }: TemplateProps) => {
               <Text>{Nombre}</Text>
               <Text>RFC: {Rfc}</Text>
               <Text>Régimen fiscal: {regimenFiscal.find(({ value }) => value === RegimenFiscal)?.label || RegimenFiscal}</Text>
-              <Text>Código postal: {LugarExpedicion}</Text>
+              <Text>Lugar de expedición: {LugarExpedicion}</Text>
             </View>
             <View style={styles.section}>
               <Text style={{ fontWeight: 'bold' }}>Receptor </Text>
@@ -101,8 +97,11 @@ const PDFTemplate = ({ xmlObj }: TemplateProps) => {
             </View>
           </View>
 
-
-          <Table conceptos={...conceptos} options={options} />
+          {conceptos.length ? (
+            <Table conceptos={...conceptos} options={options} />
+          ) : (
+            <TableSingle conceptos={conceptos} options={options} />
+          )}
 
           <View style={styles.twoCols}>
             <View style={styles.section}>
@@ -155,10 +154,9 @@ const PDFTemplate = ({ xmlObj }: TemplateProps) => {
 }
 
 interface tableProps {
-  conceptos: CfdiConcepto[]
+  conceptos: CfdiConcepto[];
   options: any
 }
-
 export const Table: FC<tableProps> = ({ conceptos, options }) => {
   return (
     <View style={styles.table}>
@@ -180,7 +178,32 @@ export const Table: FC<tableProps> = ({ conceptos, options }) => {
           <Text style={{ width: '10%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.Importe)}</Text>
         </View>
       ))}
-
+    </View>
+  )
+}
+interface tablePropsSingle {
+  conceptos: any;
+  options: any
+}
+export const TableSingle: FC<tablePropsSingle> = ({ conceptos, options }) => {
+  return (
+    <View style={styles.table}>
+      <View style={styles.topRow} fixed>
+        <Text style={{ fontWeight: 'bold', width: '10%' }}>Clave SAT</Text>
+        <Text style={{ fontWeight: 'bold', width: '50%' }}>Concepto</Text>
+        <Text style={{ fontWeight: 'bold', width: '10%' }}>Clave Ud.</Text>
+        <Text style={{ fontWeight: 'bold', width: '10%' }}>Cantidad</Text>
+        <Text style={{ fontWeight: 'bold', width: '10%' }}>Precio Unit.</Text>
+        <Text style={{ fontWeight: 'bold', width: '10%' }}>Importe</Text>
+      </View>
+      <View style={styles.tableRow} wrap={false}>
+        <Text style={{ width: '10%', textAlign: 'center' }}>{conceptos.ClaveProdServ}</Text>
+        <Text style={{ width: '50%', textAlign: 'left' }}>{conceptos.Descripcion}</Text>
+        <Text style={{ width: '10%', textAlign: 'center' }}>{conceptos.ClaveUnidad}</Text>
+        <Text style={{ width: '10%', textAlign: 'center' }}>{new Intl.NumberFormat('es-Mx', options).format(conceptos.Cantidad)}</Text>
+        <Text style={{ width: '10%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(conceptos.ValorUnitario)}</Text>
+        <Text style={{ width: '10%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(conceptos.Importe)}</Text>
+      </View>
     </View>
   )
 }
