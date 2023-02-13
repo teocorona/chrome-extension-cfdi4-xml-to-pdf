@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Chrome Extension CFDI4.0 XML to PDF",
+  "name": "CFDI4.0 XML to PDF",
   "description": "A chrome extension for generating PDF invoices from CFDI 4.0 XML",
   "action": {
     "default_popup": "popup.html",
