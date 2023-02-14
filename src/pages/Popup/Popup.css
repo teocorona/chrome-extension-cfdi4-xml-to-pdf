@@ -44,33 +44,6 @@ a.download {
   cursor: pointer;
 }
 
-input::file-selector-button {
-  padding: 10px 10px;
-  margin: 10px 10px 10px 0px;
-  background-color: rgba(38, 107, 85, 0.3);
-  border: none;
-  border: 1px solid rgb(38, 107, 85);
-  border-radius: 10px;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.file-name {
-  color: white;
-  font-size: 18px;
-  border-bottom: solid 1px rgba(38, 107, 85, 0.3);
-}
-
-.line {
-  width: 100%;
-  margin: 10px;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.5);
-}
-
 .error {
   margin: 10px;
   width: 80%;
@@ -78,4 +51,8 @@ input::file-selector-button {
   /* color: rgb(205, 29, 29); */
   color: white;
   background-color: rgba(205, 29, 29, 0.5);
+}
+
+.directory {
+  cursor: pointer;
 }
