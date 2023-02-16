@@ -12,12 +12,17 @@ const Popup = () => {
   const [xmlObj, setXmlObj] = useState(undefined)
 
   const handleFileSelected = async (event) => {
-    const reader = new FileReader()
-    reader.onload = async (event) => {
-      setXml(event.target.result)
-      setXmlObj(xmlToObj(event.target.result, setError))
-    };
-    reader.readAsText(event.target.files[0])
+    try {
+
+      const reader = new FileReader()
+      reader.onload = async (event) => {
+        setXml(event.target.result)
+        setXmlObj(xmlToObj(event.target.result, setError))
+      };
+      reader.readAsText(event.target.files[0])
+    } catch (err) {
+      alert(err.name, err.message);
+    }
   }
 
   const saveXml = async () => {
@@ -52,7 +57,7 @@ const Popup = () => {
       await savePdf();
       await saveXml();
     } catch (err) {
-      console.error(err.name, err.message);
+      alert(err.name, err.message);
     }
   }
 
