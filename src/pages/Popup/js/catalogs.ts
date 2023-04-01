@@ -78,3 +78,9 @@ export const formaDePago = [
   { value: "31", label: "31 - Intermediario pagos" },
   { value: "99", label: "99 - Por definir" },
 ]
+export const exportacion = [
+  { value: "01", label: "01 - No aplica" },
+  { value: "02", label: "02 - Definitiva" },
+  { value: "03", label: "03 - Temporal" },
+  { value: "04", label: "04 - Definitiva con clave distinta a A1 o cuando no existe enajenación en términos del CFF" },
+]
