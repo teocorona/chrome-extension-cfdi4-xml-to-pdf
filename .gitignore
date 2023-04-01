@@ -8,6 +8,7 @@
 
 # production
 /build
+/builds
 /xml-pdf-gc
 /xml-pdf-path
 logogc.png
