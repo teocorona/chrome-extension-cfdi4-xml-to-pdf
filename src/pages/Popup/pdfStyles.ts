@@ -112,7 +112,7 @@ export const styles = StyleSheet.create({
     gap: '3px'
   },
   code: {
-    fontSize: '7px',
+    fontSize: '6.2px',
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
@@ -121,11 +121,11 @@ export const styles = StyleSheet.create({
     marginBottom: '20px'
   },
   qr: {
-    width: '163px',
-    height: '163px',
+    width: '135px',
+    height: '135px',
   },
   sectionSello: {
-    width: '400px',
+    width: '435px',
     display: 'flex',
     flexDirection: 'column',
   },
