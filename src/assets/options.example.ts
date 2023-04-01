@@ -1,0 +1,6 @@
+export const fileNamePrefix = ''
+export const logo = 'logo.png'
+export const title = ''
+export const author = 'Teo Corona'
+export const subject = 'CFDI 4.0'
+export const creator = 'Teo Corona'
