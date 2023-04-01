@@ -4,7 +4,7 @@ import { totalEnLetra } from './js/totalEnLetra'
 import QRCode from 'qrcode'
 import { styles } from './pdfStyles';
 import { CfdiConcepto, CfdiProps } from './types';
-import { formaDePago, metodoPago, regimenFiscal, usoDelCfdi } from './js/catalogs';
+import { formaDePago, metodoPago, regimenFiscal, usoDelCfdi, exportacion } from './js/catalogs';
 import { logo, author, creator, subject, title } from '../../assets/options'
 
 const generateQR = async (qrStr: string) => {
@@ -100,7 +100,7 @@ const PDFTemplate = (xmlObj: CfdiProps, comment: string) => {
             </View>
             <View style={styles.section}>
               <Text> </Text>
-              <Text>Exportación: {Exportacion} </Text>
+              <Text>Exportación: {exportacion.find(({ value }) => value === Exportacion)?.label || Exportacion} </Text>
               <Text>Moneda: {Moneda}</Text>
               <Text>Tipo de cambio: {TipoCambio}</Text>
             </View>
