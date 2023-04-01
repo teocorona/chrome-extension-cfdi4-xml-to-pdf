@@ -13,6 +13,7 @@ export interface CfdiProps {
   "cfdi:Conceptos": CfdiConceptos;
   "cfdi:Impuestos": CfdiPropsCfdiImpuestos;
   "cfdi:Complemento": CfdiComplemento;
+  "cfdi:InformacionGlobal": CfdiInformacionGlobal;
   Version: string;
   Serie: string;
   Descuento?: number;
@@ -51,6 +52,11 @@ export interface TfdTimbreFiscalDigital {
   SelloSAT: string;
   "xmlns:tfd": string;
 }
+export interface CfdiInformacionGlobal {
+  Año: string;
+  Meses: string;
+  Periodicidad: string;
+}
 
 export interface CfdiConceptos {
   "cfdi:Concepto": CfdiConcepto[];
@@ -66,6 +72,7 @@ export interface CfdiConcepto {
   ValorUnitario: number;
   Importe: number;
   ObjetoImp: string;
+  Descuento: number;
 }
 
 export interface CfdiConceptoCfdiImpuestos {
@@ -81,7 +88,7 @@ export interface CfdiTraslado {
   Impuesto: string;
   TipoFactor: string;
   TasaOCuota: string;
-  Importe: string;
+  Importe: number;
 }
 
 export interface CfdiEmisor {
