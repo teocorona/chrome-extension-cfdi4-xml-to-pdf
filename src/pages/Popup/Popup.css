@@ -79,3 +79,13 @@ input::file-selector-button {
   color: white;
   background-color: rgba(205, 29, 29, 0.5);
 }
+
+#commentInput {
+  width: 90%;
+  height: 50px;
+  font-size: 18px;
+  margin: 10px;
+  background-color: transparent;
+  color: white;
+  border-color: rgba(38, 107, 85, 1);
+}
