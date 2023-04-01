@@ -84,3 +84,44 @@ export const exportacion = [
   { value: "03", label: "03 - Temporal" },
   { value: "04", label: "04 - Definitiva con clave distinta a A1 o cuando no existe enajenación en términos del CFF" },
 ]
+
+export const objetoDeImpuesto = [
+  { value: "01", label: "01-No obj. de impuesto" },
+  { value: "02", label: "02-Sí obj. de impuesto" },
+  { value: "03", label: "03-Sí obj. de impuesto y no obligado al desglose" },
+]
+
+export const impuesto = [
+  { value: "001", label: "ISR" },
+  { value: "002", label: "IVA" },
+  { value: "003", label: "IEPS" },
+]
+
+export const meses = [
+  { value: "01", label: "Enero" },
+  { value: "02", label: "Febrero" },
+  { value: "03", label: "Marzo" },
+  { value: "04", label: "Abril" },
+  { value: "05", label: "Mayo" },
+  { value: "06", label: "Junio" },
+  { value: "07", label: "Julio" },
+  { value: "08", label: "Agosto" },
+  { value: "09", label: "Septiembre" },
+  { value: "10", label: "Octubre" },
+  { value: "11", label: "Noviembre" },
+  { value: "12", label: "Diciembre" },
+  { value: "13", label: "Enero-Febrero" },
+  { value: "14", label: "Marzo-Abril" },
+  { value: "15", label: "Mayo-Junio" },
+  { value: "16", label: "Julio-Agosto" },
+  { value: "17", label: "Septiembre-Octubre" },
+  { value: "18", label: "Noviembre-Diciembre" },
+]
+
+export const periodicidad = [
+  { value: "01", label: "Diario" },
+  { value: "02", label: "Semanal" },
+  { value: "03", label: "Quincenal" },
+  { value: "04", label: "Mensual" },
+  { value: "05", label: "Bimestral" },
+]
