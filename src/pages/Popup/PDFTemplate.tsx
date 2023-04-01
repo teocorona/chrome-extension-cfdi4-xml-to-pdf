@@ -22,15 +22,15 @@ const PDFTemplate = (xmlObj: CfdiProps, comment: string) => {
     Moneda, TipoCambio, Total, TipoDeComprobante, Exportacion, MetodoPago, LugarExpedicion } = xmlObj
   const { Rfc, Nombre, RegimenFiscal } = xmlObj['cfdi:Emisor']
   const { Rfc: rRfc, Nombre: rNombre, DomicilioFiscalReceptor: rDomicilio, RegimenFiscalReceptor: rRegimenFiscal, UsoCFDI } = xmlObj['cfdi:Receptor']
-  const { SelloSAT, Version: VersionT, UUID, FechaTimbrado, NoCertificadoSAT } = xmlObj['cfdi:Complemento']['tfd:TimbreFiscalDigital']
-  const CadenaOriginal = '||' + VersionT + '|' + UUID + '|' + FechaTimbrado + '| ' + Sello + '|' + NoCertificadoSAT + '||'
+  const { SelloSAT, Version: VersionT, UUID, FechaTimbrado, NoCertificadoSAT, RfcProvCertif } = xmlObj['cfdi:Complemento']['tfd:TimbreFiscalDigital']
+  const CadenaOriginal = '||' + VersionT + '|' + UUID + '|' + FechaTimbrado + '|' + RfcProvCertif + '|' + Sello + '|' + NoCertificadoSAT + '||'
   const Sello8 = Sello.slice(-8)
   const TotalImpuestosTrasladados = xmlObj['cfdi:Impuestos'].TotalImpuestosTrasladados || 0.00
   // const TotalImpuestosRetenidos = xmlObj['cfdi:Impuestos'].TotalImpuestosRetenidos || '0.00'
   const conceptos = xmlObj['cfdi:Conceptos']['cfdi:Concepto']
-  const cutSelloE = Sello.match(/.{1,95}/g);
-  const cutSelloS = SelloSAT.match(/.{1,95}/g);
-  const cutCadena = CadenaOriginal.match(/.{1,95}/g);
+  const cutSelloE = Sello.match(/.{1,115}/g);
+  const cutSelloS = SelloSAT.match(/.{1,115}/g);
+  const cutCadena = CadenaOriginal.match(/.{1,115}/g);
   const urlBase = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx'
   const qrStr = `${urlBase}?id=${UUID}&re=${Rfc}&rr=${rRfc}&tt=${Total}&fe=${Sello8}`
   const qr = generateQR(qrStr)
@@ -140,19 +140,19 @@ const PDFTemplate = (xmlObj: CfdiProps, comment: string) => {
               <Image src={qr} />
             </View>
             <View style={styles.sectionSello}>
-              <Text style={{ fontWeight: 'bold', paddingTop: '10px' }}>Sello Digital del Emisor</Text>
+              <Text style={{ fontWeight: 'bold', paddingTop: '7px' }}>Sello Digital del Emisor</Text>
               {cutSelloE?.map((sello, index) => (
                 <Text key={index}>{sello}</Text>
               ))}
-              <Text style={{ fontWeight: 'bold', paddingTop: '5px' }}>Sello Digital del SAT</Text>
+              <Text style={{ fontWeight: 'bold', paddingTop: '2px' }}>Sello Digital del SAT</Text>
               {cutSelloS?.map((sello, index) => (
                 <Text key={index}>{sello}</Text>
               ))}
-              <Text style={{ fontWeight: 'bold', paddingTop: '5px' }}>Cadena original del complemento de certificación digital del SAT</Text>
+              <Text style={{ fontWeight: 'bold', paddingTop: '2px' }}>Cadena original del complemento de certificación digital del SAT</Text>
               {cutCadena?.map((sello, index) => (
                 <Text key={index}>{sello}</Text>
               ))}
-              <Text style={{ fontWeight: 'bold', paddingTop: '10px' }}>Este documento es una representacion impresa de un CFDI version {Version}</Text>
+              <Text style={{ fontWeight: 'bold', paddingTop: '2px' }}>Este documento es una representacion impresa de un CFDI version {Version}</Text>
             </View>
           </View>
 
