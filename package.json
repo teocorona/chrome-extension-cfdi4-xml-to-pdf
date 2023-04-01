@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lxieyang/chrome-extension-pdf-cfdi4.git"
+    "url": "https://github.com/teocorona/chrome-extension-cfdi4-xml-to-pdf"
   },
   "scripts": {
     "build": "node utils/build.js",
