@@ -34,6 +34,11 @@ export const styles = StyleSheet.create({
     padding: '5px',
     width: '50%'
   },
+  sectionComment: {
+    padding: '10px',
+    width: '100%',
+    gap: '10px'
+  },
   logoRow1: {
     padding: '5px',
     width: '8%'
@@ -92,7 +97,7 @@ export const styles = StyleSheet.create({
     paddingRight: '3px',
     display: 'flex',
     flexDirection: 'row',
-    width: '100%',
+    width: '50%',
     justifyContent: 'flex-end',
     textAlign: 'right',
     gap: '10px',

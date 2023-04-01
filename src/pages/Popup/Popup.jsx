@@ -5,11 +5,13 @@ import './Popup.css';
 import { xmlToObj } from './js/functions';
 import PDFTemplate from './PDFTemplate'
 import { pdf } from '@react-pdf/renderer';
+import { fileNamePrefix } from '../../assets/options'
 
 const Popup = () => {
   const [error, setError] = useState('')
   const [xml, setXml] = useState(undefined)
   const [xmlObj, setXmlObj] = useState(undefined)
+  const [comment, setComment] = useState('')
 
   const handleFileSelected = async (event) => {
     try {
@@ -26,8 +28,9 @@ const Popup = () => {
   }
 
   const saveXml = async () => {
+    const prefix = fileNamePrefix || ''
     const handle2 = await window.showSaveFilePicker({
-      suggestedName: `F${xmlObj['cfdi:Comprobante'].Folio}`,
+      suggestedName: `${prefix}F${xmlObj['cfdi:Comprobante'].Folio}`,
       types: [{
         accept: { 'text/xml': ['.xml'] },
       }],
@@ -39,14 +42,15 @@ const Popup = () => {
   }
 
   const savePdf = async () => {
+    const prefix = fileNamePrefix || ''
     const handle = await window.showSaveFilePicker({
-      suggestedName: `F${xmlObj['cfdi:Comprobante'].Folio}`,
+      suggestedName: `${prefix}F${xmlObj['cfdi:Comprobante'].Folio}`,
       types: [{
         accept: { 'application/pdf': ['.pdf'] },
       }],
     });
     const writable = await handle.createWritable();
-    await writable.write(await pdf(PDFTemplate(xmlObj['cfdi:Comprobante'])).toBlob());
+    await writable.write(await pdf(PDFTemplate(xmlObj['cfdi:Comprobante'], comment)).toBlob());
     await writable.close();
     return handle;
   }
@@ -60,11 +64,11 @@ const Popup = () => {
       alert(err.name, err.message);
     }
   }
-
   return (
     <div className="App">
       <header className="App-header">
         <input id="fileInput" type="file" accept=".xml" onChange={handleFileSelected} />
+        <textarea id="commentInput" type="text" placeholder='comentario... (??)' value={comment} onChange={(e) => setComment(e.target.value)} />
         {xmlObj &&
           <>
             <button onClick={handleSave}>

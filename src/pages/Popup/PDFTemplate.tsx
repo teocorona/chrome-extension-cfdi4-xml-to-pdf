@@ -5,6 +5,7 @@ import QRCode from 'qrcode'
 import { styles } from './pdfStyles';
 import { CfdiConcepto, CfdiProps } from './types';
 import { formaDePago, metodoPago, regimenFiscal, usoDelCfdi } from './js/catalogs';
+import { logo, author, creator, subject, title } from '../../assets/options'
 
 const generateQR = async (qrStr: string) => {
   try {
@@ -14,9 +15,8 @@ const generateQR = async (qrStr: string) => {
   }
 }
 
-
 // Create Document Component
-const PDFTemplate = (xmlObj: CfdiProps) => {
+const PDFTemplate = (xmlObj: CfdiProps, comment: string) => {
   const totalLetra = totalEnLetra(xmlObj.Total).toLowerCase() + 'MXN'
   const { Version, Folio, Fecha, Sello, FormaPago, NoCertificado, SubTotal, Descuento = 0.00,
     Moneda, TipoCambio, Total, TipoDeComprobante, Exportacion, MetodoPago, LugarExpedicion } = xmlObj
@@ -37,19 +37,28 @@ const PDFTemplate = (xmlObj: CfdiProps) => {
 
   const options = { maximumFractionDigits: 2, minimumFractionDigits: 2 }
 
+  let finalComment: string[]
+  if (comment.length > 0) {
+    finalComment = comment.split('??')
+  } else {
+    finalComment = []
+  }
+
+  let finalLogo = logo ? logo : 'logo.png'
+
   return (
     <Document
-      title={'F' + xmlObj.Folio}
-      author='GCI'
-      subject='CFDI 4.0'
-      creator='GCI'
+      title={`${title}F${xmlObj.Folio}`}
+      author={author}
+      subject={subject}
+      creator={creator}
     >
       <Page size="LETTER" style={styles.page} wrap>
         <View style={styles.body}>
 
           <View style={styles.twoCols}>
             <View style={styles.logoRow1}>
-              <Image src='logo.png' style={styles.logo} />
+              <Image src={finalLogo} style={styles.logo} />
             </View>
             <View style={styles.logoRow2}>
               <Text style={{ fontWeight: 'bold' }}>Factura - {TipoDeComprobante === 'I' ? 'Ingreso' : ''}</Text>
@@ -104,8 +113,11 @@ const PDFTemplate = (xmlObj: CfdiProps) => {
           )}
 
           <View style={styles.twoCols}>
-            <View style={styles.section}>
+            <View style={styles.sectionComment}>
               <Text><Text style={{ fontWeight: 'bold' }}>Total en letra: </Text>{totalLetra}</Text>
+              {finalComment.length > 0 ? (
+                <Text><Text style={{ fontWeight: 'bold' }}>{finalComment[0]}</Text>{finalComment[1]}</Text>
+              ) : <></>}
             </View>
             <View style={styles.totals}>
               <View style={styles.sectionT}>
