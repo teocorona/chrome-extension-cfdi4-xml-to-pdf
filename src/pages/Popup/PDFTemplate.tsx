@@ -4,7 +4,7 @@ import { totalEnLetra } from './js/totalEnLetra'
 import QRCode from 'qrcode'
 import { styles } from './pdfStyles';
 import { CfdiConcepto, CfdiProps } from './types';
-import { formaDePago, metodoPago, regimenFiscal, usoDelCfdi, exportacion } from './js/catalogs';
+import { formaDePago, metodoPago, regimenFiscal, usoDelCfdi, exportacion, objetoDeImpuesto, impuesto, meses, periodicidad } from './js/catalogs';
 import { logo, author, creator, subject, title } from '../../assets/options'
 
 const generateQR = async (qrStr: string) => {
@@ -106,11 +106,22 @@ const PDFTemplate = (xmlObj: CfdiProps, comment: string) => {
             </View>
           </View>
 
-          {conceptos.length ? (
-            <Table conceptos={...conceptos} options={options} />
-          ) : (
-            <TableSingle conceptos={conceptos} options={options} />
-          )}
+          {(xmlObj['cfdi:InformacionGlobal']) ? (
+            <View style={styles.twoCols}>
+              <View style={styles.section}>
+                <Text style={{ fontWeight: 'bold' }}>Información Global</Text>
+                <Text>Año: {xmlObj['cfdi:InformacionGlobal'].Año}</Text>
+                <Text>Mes: {meses.find(({ value }) => value === xmlObj['cfdi:InformacionGlobal'].Meses)?.label || xmlObj['cfdi:InformacionGlobal'].Meses}</Text>
+              </View>
+              <View style={styles.section}>
+                <Text> </Text>
+                <Text>Periodicidad: {periodicidad.find(({ value }) => value === xmlObj['cfdi:InformacionGlobal'].Periodicidad)?.label || xmlObj['cfdi:InformacionGlobal'].Periodicidad}</Text>
+              </View>
+            </View>
+          ) : <></>
+          }
+
+          <Table conceptos={...conceptos} options={options} />
 
           <View style={styles.twoCols}>
             <View style={styles.sectionComment}>
@@ -167,55 +178,73 @@ const PDFTemplate = (xmlObj: CfdiProps, comment: string) => {
 
 interface tableProps {
   conceptos: CfdiConcepto[];
-  options: any
+  options: {
+    maximumFractionDigits: number,
+    minimumFractionDigits: number
+  }
 }
 export const Table: FC<tableProps> = ({ conceptos, options }) => {
   return (
     <View style={styles.table}>
-      <View style={styles.topRow} fixed>
-        <Text style={{ fontWeight: 'bold', width: '10%' }}>Clave SAT</Text>
-        <Text style={{ fontWeight: 'bold', width: '50%' }}>Concepto</Text>
-        <Text style={{ fontWeight: 'bold', width: '10%' }}>Clave Ud.</Text>
-        <Text style={{ fontWeight: 'bold', width: '10%' }}>Cantidad</Text>
-        <Text style={{ fontWeight: 'bold', width: '10%' }}>Precio Unit.</Text>
-        <Text style={{ fontWeight: 'bold', width: '10%' }}>Importe</Text>
-      </View>
-      {conceptos.map((concepto, index: number) => (
-        <View style={(index % 2) === 0 || index === 0 ? styles.tableRow : styles.tableRowG} key={index} wrap={false}>
-          <Text style={{ width: '10%', textAlign: 'center' }}>{concepto.ClaveProdServ}</Text>
-          <Text style={{ width: '50%', textAlign: 'left' }}>{concepto.Descripcion}</Text>
-          <Text style={{ width: '10%', textAlign: 'center' }}>{concepto.ClaveUnidad}</Text>
-          <Text style={{ width: '10%', textAlign: 'center' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.Cantidad)}</Text>
-          <Text style={{ width: '10%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.ValorUnitario)}</Text>
-          <Text style={{ width: '10%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.Importe)}</Text>
-        </View>
-      ))}
+      <TableHeader />
+      {(conceptos.length > 1) ?
+        conceptos.map((concepto, index: number) => (
+          <Row key={index} concepto={concepto} options={options} index={index} />
+        ))
+        :
+        <Row key={0} concepto={conceptos} options={options} index={0} />
+      }
     </View>
   )
 }
-interface tablePropsSingle {
-  conceptos: any;
-  options: any
+interface tablerow {
+  concepto: any;
+  options: {
+    maximumFractionDigits: number,
+    minimumFractionDigits: number
+  }
+  index: number
 }
-export const TableSingle: FC<tablePropsSingle> = ({ conceptos, options }) => {
+export const Row: FC<tablerow> = ({ concepto, options, index }) => {
   return (
-    <View style={styles.table}>
-      <View style={styles.topRow} fixed>
-        <Text style={{ fontWeight: 'bold', width: '10%' }}>Clave SAT</Text>
-        <Text style={{ fontWeight: 'bold', width: '50%' }}>Concepto</Text>
-        <Text style={{ fontWeight: 'bold', width: '10%' }}>Clave Ud.</Text>
-        <Text style={{ fontWeight: 'bold', width: '10%' }}>Cantidad</Text>
-        <Text style={{ fontWeight: 'bold', width: '10%' }}>Precio Unit.</Text>
-        <Text style={{ fontWeight: 'bold', width: '10%' }}>Importe</Text>
+    <View style={(index % 2) === 0 || index === 0 ? styles.tableRow : styles.tableRowG} wrap={false}>
+      <Text style={{ width: '7.5%', textAlign: 'center' }}>{concepto.ClaveProdServ}</Text>
+      <Text style={{ width: '45.0%', textAlign: 'left' }}>{concepto.Descripcion}</Text>
+      <Text style={{ width: '7.5%', textAlign: 'center' }}>{concepto.ClaveUnidad}</Text>
+      <Text style={{ width: '7.5%', textAlign: 'center' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.Cantidad)}</Text>
+      <Text style={{ width: '7.5%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.ValorUnitario)}</Text>
+      <Text style={{ width: '7.5%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.Importe)}</Text>
+      <View style={{ width: '12.0%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+        <Text style={{ textAlign: 'right' }}>
+          {new Intl.NumberFormat('es-Mx', options).format(concepto['cfdi:Impuestos']['cfdi:Traslados']['cfdi:Traslado'].Importe || 0)}
+        </Text>
+        <Text style={{ fontSize: '6px' }}>
+          {objetoDeImpuesto.find(({ value }) => value === concepto.ObjetoImp)?.label || concepto.ObjetoImp}
+        </Text>
+        <Text style={{ fontSize: '6px' }}>
+          {impuesto.find(({ value }) => value === concepto['cfdi:Impuestos']['cfdi:Traslados']['cfdi:Traslado'].Impuesto)?.label || concepto.ObjetoImp}
+          {' '}
+          {concepto['cfdi:Impuestos']['cfdi:Traslados']['cfdi:Traslado'].TasaOCuota}
+          {' '}
+          {concepto['cfdi:Impuestos']['cfdi:Traslados']['cfdi:Traslado'].TipoFactor}
+        </Text>
       </View>
-      <View style={styles.tableRow} wrap={false}>
-        <Text style={{ width: '10%', textAlign: 'center' }}>{conceptos.ClaveProdServ}</Text>
-        <Text style={{ width: '50%', textAlign: 'left' }}>{conceptos.Descripcion}</Text>
-        <Text style={{ width: '10%', textAlign: 'center' }}>{conceptos.ClaveUnidad}</Text>
-        <Text style={{ width: '10%', textAlign: 'center' }}>{new Intl.NumberFormat('es-Mx', options).format(conceptos.Cantidad)}</Text>
-        <Text style={{ width: '10%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(conceptos.ValorUnitario)}</Text>
-        <Text style={{ width: '10%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(conceptos.Importe)}</Text>
-      </View>
+      <Text style={{ width: '7.5%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.Descuento || 0)}</Text>
+    </View>
+  )
+}
+
+export const TableHeader: FC = () => {
+  return (
+    <View style={styles.topRow} fixed>
+      <Text style={{ fontWeight: 'bold', width: '7.5%' }}>Clave SAT</Text>
+      <Text style={{ fontWeight: 'bold', width: '45.0%' }}>Concepto</Text>
+      <Text style={{ fontWeight: 'bold', width: '7.5%' }}>Clave Ud.</Text>
+      <Text style={{ fontWeight: 'bold', width: '7.5%' }}>Cantidad</Text>
+      <Text style={{ fontWeight: 'bold', width: '7.5%' }}>Precio U.</Text>
+      <Text style={{ fontWeight: 'bold', width: '7.5%' }}>Importe</Text>
+      <Text style={{ fontWeight: 'bold', width: '10.0%' }}>Impuesto</Text>
+      <Text style={{ fontWeight: 'bold', width: '7.5%' }}>Descuento</Text>
     </View>
   )
 }

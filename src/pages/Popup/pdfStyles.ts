@@ -61,6 +61,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
+    fontSize: '8px'
   },
   topRow: {
     fontWeight: 'bold',
@@ -86,6 +87,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#f7f7f7',
     padding: '3px',
     gap: '3px',
+    borderRadius: '1px'
   },
   logo: {
     display: 'flex',
