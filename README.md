@@ -4,9 +4,14 @@ A chrome extension for generating PDF invoices from CFDI 4.0 XML
 
 Based on this great boilerplate https://github.com/lxieyang/chrome-extension-boilerplate-react. Is recommended to review the Readme and Issues.
 
-## Output preview (pdf)
+### Output preview (pdf)
 
 <img src="demo.png" width="300"/>
+
+### Extension Popup preview
+
+<img src="demo2.png" width="300"/>
+<img src="demo3.png" width="300"/>
 
 ## Features
 
