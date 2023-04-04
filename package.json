@@ -1,6 +1,6 @@
 {
   "name": "chrome-extension-cfdi4-xml-to-pdf",
-  "version": "5.0.4",
+  "version": "0.2.1",
   "description": "A chrome extension for generating PDF invoices from CFDI 4.0 XML",
   "license": "MIT",
   "repository": {
