@@ -125,8 +125,8 @@ function Millones(num: number) {
 }//Millones()
 
 const defaultCurrency = {
-  plural: '',
-  singular: '',
+  plural: 'pesos',
+  singular: 'peso',
   centPlural: '',
   centSingular: ''
 }
@@ -146,7 +146,7 @@ export const totalEnLetra = (num: number, currency = defaultCurrency): string =>
   if (data.centavos > 0) {
     data.letrasCentavos = data.centavos + '/100 ';
   } else {
-    data.letrasCentavos = '0/100 ';
+    data.letrasCentavos = '00/100 ';
   }
 
   if (data.enteros === 0)

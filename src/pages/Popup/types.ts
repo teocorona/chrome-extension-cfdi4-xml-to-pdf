@@ -84,7 +84,7 @@ export interface CfdiTraslados {
 }
 
 export interface CfdiTraslado {
-  Base: string;
+  Base: number;
   Impuesto: string;
   TipoFactor: string;
   TasaOCuota: string;

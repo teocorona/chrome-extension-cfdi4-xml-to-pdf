@@ -177,7 +177,7 @@ const PDFTemplate = (xmlObj: CfdiProps, comment: string) => {
 }
 
 interface tableProps {
-  conceptos: CfdiConcepto[];
+  conceptos: CfdiConcepto[],
   options: {
     maximumFractionDigits: number,
     minimumFractionDigits: number
@@ -198,7 +198,7 @@ export const Table: FC<tableProps> = ({ conceptos, options }) => {
   )
 }
 interface tablerow {
-  concepto: any;
+  concepto: any,
   options: {
     maximumFractionDigits: number,
     minimumFractionDigits: number
@@ -209,14 +209,17 @@ export const Row: FC<tablerow> = ({ concepto, options, index }) => {
   return (
     <View style={(index % 2) === 0 || index === 0 ? styles.tableRow : styles.tableRowG} wrap={false}>
       <Text style={{ width: '7.5%', textAlign: 'center' }}>{concepto.ClaveProdServ}</Text>
-      <Text style={{ width: '45.0%', textAlign: 'left' }}>{concepto.Descripcion}</Text>
+      <Text style={{ width: '43.0%', textAlign: 'left' }}>{concepto.Descripcion}</Text>
       <Text style={{ width: '7.5%', textAlign: 'center' }}>{concepto.ClaveUnidad}</Text>
       <Text style={{ width: '7.5%', textAlign: 'center' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.Cantidad)}</Text>
-      <Text style={{ width: '7.5%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.ValorUnitario)}</Text>
-      <Text style={{ width: '7.5%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.Importe)}</Text>
+      <Text style={{ width: '7.5%', textAlign: 'center' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.ValorUnitario)}</Text>
+      <Text style={{ width: '7.5%', textAlign: 'center' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.Importe)}</Text>
       <View style={{ width: '12.0%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-        <Text style={{ textAlign: 'right' }}>
+        <Text style={{ textAlign: 'center' }}>
           {new Intl.NumberFormat('es-Mx', options).format(concepto['cfdi:Impuestos']['cfdi:Traslados']['cfdi:Traslado'].Importe || 0)}
+        </Text>
+        <Text style={{ fontSize: '6px' }}>
+          Base: {new Intl.NumberFormat('es-Mx', options).format(concepto['cfdi:Impuestos']['cfdi:Traslados']['cfdi:Traslado'].Base || 0)}
         </Text>
         <Text style={{ fontSize: '6px' }}>
           {objetoDeImpuesto.find(({ value }) => value === concepto.ObjetoImp)?.label || concepto.ObjetoImp}
@@ -229,7 +232,7 @@ export const Row: FC<tablerow> = ({ concepto, options, index }) => {
           {concepto['cfdi:Impuestos']['cfdi:Traslados']['cfdi:Traslado'].TipoFactor}
         </Text>
       </View>
-      <Text style={{ width: '7.5%', textAlign: 'right' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.Descuento || 0)}</Text>
+      <Text style={{ width: '7.5%', textAlign: 'center' }}>{new Intl.NumberFormat('es-Mx', options).format(concepto.Descuento || 0)}</Text>
     </View>
   )
 }
@@ -238,12 +241,12 @@ export const TableHeader: FC = () => {
   return (
     <View style={styles.topRow} fixed>
       <Text style={{ fontWeight: 'bold', width: '7.5%' }}>Clave SAT</Text>
-      <Text style={{ fontWeight: 'bold', width: '45.0%' }}>Concepto</Text>
+      <Text style={{ fontWeight: 'bold', width: '43.0%' }}>Concepto</Text>
       <Text style={{ fontWeight: 'bold', width: '7.5%' }}>Clave Ud.</Text>
       <Text style={{ fontWeight: 'bold', width: '7.5%' }}>Cantidad</Text>
       <Text style={{ fontWeight: 'bold', width: '7.5%' }}>Precio U.</Text>
       <Text style={{ fontWeight: 'bold', width: '7.5%' }}>Importe</Text>
-      <Text style={{ fontWeight: 'bold', width: '10.0%' }}>Impuesto</Text>
+      <Text style={{ fontWeight: 'bold', width: '12.0%' }}>Impuestos</Text>
       <Text style={{ fontWeight: 'bold', width: '7.5%' }}>Descuento</Text>
     </View>
   )
